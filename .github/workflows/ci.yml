@@ -17,12 +17,15 @@ jobs:
       matrix:
         go-version: ["1.17", "1.18"]
     env:
-      ENVIRONMENT: ci        
+      ENVIRONMENT: ci
+      AWS_HOST: localstack       
   
-
     services:
       localstack:
         image: localstack/localstack:latest
+        ports:
+          - 4566:4566
+          - 4510-4559:4510-4559        
         env:
           DEFAULT_REGION: us-east-1
           AWS_DEFAULT_REGION: us-east-1
@@ -34,11 +37,14 @@ jobs:
           HOST_TMP_FOLDER: ${TMPDIR:-/tmp/}localstack
           DOCKER_HOST: unix:///var/run/docker.sock
           SERVICES: s3,s3control,lambda,dynamodb,stepfunctions,iam
-     
-        ports:
-          - 4566:4566
-          - 4510-4559:4510-4559
-
+          HOSTNAME_EXTERNAL: ${{ env.AWS_HOST }}
+        
+        options: >-
+          --name=localstack
+          --health-cmd="curl -sS 127.0.0.1:4566 || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
     - uses: actions/checkout@v2
