@@ -21,11 +21,12 @@ type Session struct {
 
 func (s *Session) SetAwsSession(ctx context.Context) error {
 	awsConfig := &aws.Config{
-		Endpoint:                  aws.String(golium.Value(ctx, "[CONF:awsEndpoint]").(string)),
-		DisableSSL:                aws.Bool(true),
-		Region:                    aws.String(golium.Value(ctx, "[CONF:awsRegion]").(string)),
-		DisableEndpointHostPrefix: aws.Bool(true),
-		S3ForcePathStyle:          aws.Bool(true),
+		Endpoint:                      aws.String(golium.Value(ctx, "[CONF:awsEndpoint]").(string)),
+		DisableSSL:                    aws.Bool(true),
+		Region:                        aws.String(golium.Value(ctx, "[CONF:awsRegion]").(string)),
+		DisableEndpointHostPrefix:     aws.Bool(true),
+		S3ForcePathStyle:              aws.Bool(true),
+		CredentialsChainVerboseErrors: aws.Bool(true),
 	}
 	var err error
 	if s.AwsSession, err = aws_s.NewSession(awsConfig); err != nil {
