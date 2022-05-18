@@ -48,4 +48,4 @@ jobs:
       run: make zip-deployment
 
     - name: Launch tests
-      run: make validate-template      
+      run: make test      
