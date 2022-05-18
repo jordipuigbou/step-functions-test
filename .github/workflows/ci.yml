@@ -18,7 +18,6 @@ jobs:
         go-version: ["1.17", "1.18"]
     env:
       ENVIRONMENT: ci
-      AWS_HOST: localstack  
       AWS_ACCESS_KEY_ID: local
       AWS_SECRET_ACCESS_KEY: local     
   
@@ -39,7 +38,6 @@ jobs:
           HOST_TMP_FOLDER: ${TMPDIR:-/tmp/}localstack
           DOCKER_HOST: unix:///var/run/docker.sock
           SERVICES: s3,s3control,lambda,dynamodb,stepfunctions,iam
-          HOSTNAME_EXTERNAL: ${{ env.AWS_HOST }}
         
         options: >-
           --name=localstack

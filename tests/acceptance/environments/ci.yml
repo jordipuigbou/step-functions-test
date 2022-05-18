@@ -1,2 +1,2 @@
-awsEndpoint: http://localstack:4566
+awsEndpoint: http://localhost:4566
 awsRegion: us-east-1
