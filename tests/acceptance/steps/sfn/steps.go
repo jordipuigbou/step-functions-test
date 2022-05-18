@@ -18,8 +18,8 @@ func (s Steps) InitializeSteps(
 	session := GetSession(ctx)
 	// Initialize the steps
 	scenCtx.Step(`^I set AWS SFN client$`,
-		func() error {
-			return session.SetAwsSfnClient(ctx)
+		func() {
+			session.SetAwsSfnClient()
 		})
 	scenCtx.Step(`^I create step function state machine from "([^"]*)" JSON file with "([^"]*)" name$`,
 		func(stepFunction, stateMachineName string) error {
@@ -41,16 +41,6 @@ func (s Steps) InitializeSteps(
 	scenCtx.Step(`^I delete step function state machine$`,
 		func() error {
 			return session.DeleteSfnStateMachine()
-		})
-
-	scenCtx.Step(`^I create lambda function$`,
-		func() error {
-			return session.CreateLambdaFunction(ctx)
-		})
-
-	scenCtx.Step(`^I create iam testing role$`,
-		func() error {
-			return session.CreateIAMRole(ctx)
 		})
 
 	return ctx

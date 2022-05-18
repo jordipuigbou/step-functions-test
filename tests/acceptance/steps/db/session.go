@@ -1,42 +1,21 @@
 package db
 
 import (
-	"context"
 	"fmt"
 
-	"github.com/TelefonicaTC2Tech/golium"
 	"github.com/aws/aws-sdk-go/aws"
 	aws_s "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
 type Session struct {
-	awsSession     *aws_s.Session
+	AwsSession     *aws_s.Session
 	DynamoDBClient *dynamodb.DynamoDB
 	TestTableName  string
 }
 
-// const (
-// 	stepFunctionPath = "/Users/zc01167/sam-app"
-// )
-
-// type executionOut struct {
-// 	StatusCode int    `json:"statusCode"`
-// 	Body       string `json:"body"`
-// }
-
-func (s *Session) SetAwsDynamoClient(ctx context.Context) error {
-	awsConfig := &aws.Config{
-		Endpoint:   aws.String(golium.Value(ctx, "[CONF:dynamoDBEndpoint]").(string)),
-		DisableSSL: aws.Bool(true),
-		Region:     aws.String(golium.Value(ctx, "[CONF:awsRegion]").(string)),
-	}
-	var err error
-	if s.awsSession, err = aws_s.NewSession(awsConfig); err != nil {
-		return fmt.Errorf("error creating aws session. %v", err)
-	}
-	s.DynamoDBClient = dynamodb.New(s.awsSession)
-	return nil
+func (s *Session) SetAwsDynamoClient() {
+	s.DynamoDBClient = dynamodb.New(s.AwsSession)
 }
 
 func (s *Session) CreateDynamoDBTable(tableName, indexName string) error {
