@@ -1,0 +1,51 @@
+name: CI pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build and Test (Go ${{ matrix.go-version }})
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version: ["1.17", "1.18"]
+  
+
+    services:
+      localstack:
+        image: localstack/localstack:latest
+        env:
+          DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: local
+          AWS_SECRET_ACCESS_KEY: local
+          DEBUG: ${DEBUG-}
+          DATA_DIR: ${DATA_DIR-}
+          LAMBDA_EXECUTOR: ${LAMBDA_EXECUTOR-}
+          HOST_TMP_FOLDER: ${TMPDIR:-/tmp/}localstack
+          DOCKER_HOST: unix:///var/run/docker.sock
+          SERVICES: s3,s3control,lambda,dynamodb,stepfunctions,iam
+     
+        ports:
+          - 4566:4566
+          - 4510-4559:4510-4559
+
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build SAM
+      run: make build
+
+    - name: Generate Zip Deployment
+      run: make zip-deployment
+
+    - name: Launch tests
+      run: make validate-template      
