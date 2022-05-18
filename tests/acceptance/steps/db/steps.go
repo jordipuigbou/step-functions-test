@@ -17,8 +17,8 @@ func (s Steps) InitializeSteps(
 	session := GetSession(ctx)
 	// Initialize the steps
 	scenCtx.Step(`^I set AWS DynamoDB client$`,
-		func() error {
-			return session.SetAwsDynamoClient(ctx)
+		func() {
+			session.SetAwsDynamoClient()
 		})
 	scenCtx.Step(`^I create a DynamoDB table with "([^"]*)" name and "([^"]*)" string index$`,
 		func(tableName, indexName string) error {
