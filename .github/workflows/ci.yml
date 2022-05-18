@@ -16,6 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         go-version: ["1.17", "1.18"]
+    env:
+      ENVIRONMENT: ci        
   
 
     services:

@@ -21,7 +21,7 @@ type Session struct {
 
 func (s *Session) SetAwsSession(ctx context.Context) error {
 	awsConfig := &aws.Config{
-		Endpoint:                  aws.String(golium.Value(ctx, "[CONF:sfnEndpoint]").(string)),
+		Endpoint:                  aws.String(golium.Value(ctx, "[CONF:awsEndpoint]").(string)),
 		DisableSSL:                aws.Bool(true),
 		Region:                    aws.String(golium.Value(ctx, "[CONF:awsRegion]").(string)),
 		DisableEndpointHostPrefix: aws.Bool(true),
