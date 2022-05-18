@@ -1,0 +1,9 @@
+sfnEndpoint: http://localhost:4566
+dynamoDBEndpoint: http://localhost:4566
+awsRegion: us-east-1
+# S3
+minio: true
+minioEndpoint: http://localhost:4566
+
+s3Autoclean: true
+s3Bucket: HelloWorldBucket

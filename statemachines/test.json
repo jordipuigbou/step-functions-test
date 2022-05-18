@@ -1,0 +1,35 @@
+{
+	"Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Local function",
+	"StartAt": "HelloWorld",
+	"States": {
+		"HelloWorld": {
+			"Type": "Task",
+			"Resource": "arn:aws:lambda:us-east-1:000000000000:function:HelloWorldFunction",
+			"ResultPath": "$.message",
+			"Next": "StoreHistory"
+		},
+		"StoreHistory":{
+			"Type": "Task",
+			"Resource": "arn:aws:states:::dynamodb:putItem",
+			"Parameters":{
+				"TableName": "TransactionHistoryTable",
+				"Item":{
+					"TransactionId":{
+						"S":"123456"
+					}
+				}
+			},
+			"Retry":[
+				{
+					"ErrorEquals":[
+						"States.ALL"
+					],
+					"IntervalSeconds":1,
+					"MaxAttempts":3
+				}
+			],
+			"End": true,
+			"ResultPath": "$.passResult"
+		}
+	}
+}

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+    hostname: localstack
+    image: localstack/localstack
+    network_mode: bridge
+    ports:
+      - "4566:4566" # check http://localhost:4566/health no make sure is up
+      - "4510-4559:4510-4559"
+    environment: 
+      - DEFAULT_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=local
+      - AWS_SECRET_ACCESS_KEY=local
+      - DEBUG=${DEBUG-}
+      - DATA_DIR=${DATA_DIR-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SERVICES=s3,s3control,lambda,dynamodb,stepfunctions,iam
+      - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    tmpfs:
+      - /tmp/localstack:exec,mode=600
