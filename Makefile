@@ -8,6 +8,10 @@ LINTER_ARGS = run -c .golangci.yml --timeout 5m
 help:	## Show a list of available commands
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
+.PHONY: install
+install:	## Download dependencies
+	go mod download
+
 .PHONY: build
 build:	## Build from sam template
 	sam build
