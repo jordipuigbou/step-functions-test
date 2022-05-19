@@ -8,19 +8,29 @@ Services tested are:
 - IAM
 - Dynamo DB
 
-## Quick start
+## Requirements
 
+* [Docker](https://www.docker.com/community-edition)
+* [Golang](https://golang.org)
+* [AWS CLI](https://aws.amazon.com/es/cli/)
+* [SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+
+## Quick start
+- Install all [requirements](#requirements)
+- Install go dependencies
+```bash
+make install
+make download-tools
+```
 - Launch aws local stack
 ```bash
 docker-compose up
 ```
-
-- Build with SAM
+- Build aws stack with SAM template
 ```bash
 make build
 ```
-
-- Zip Deployment
+- Zip deployment
 ```bash
 make zip-deployment
 ```
@@ -34,11 +44,12 @@ make test
 ```bash
 make validate-template
 ```
+- Lint go code
+```bash
+make lint
+```
 
 - Clean zip Deployment
 ```bash
 make clean-zip-deployment
 ```
-
-## Pending improvements
-- Update aws golang sdk to v2
