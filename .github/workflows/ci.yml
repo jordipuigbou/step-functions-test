@@ -2,9 +2,9 @@ name: CI pipeline
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
 
@@ -16,30 +16,29 @@ jobs:
       fail-fast: false
       matrix:
         go-version: ["1.17", "1.18"]
+    env:
+      ENVIRONMENT: ci
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      DEFAULT_REGION: us-east-1
+      AWS_DEFAULT_REGION: us-east-1  
   
-
-    services:
-      localstack:
-        image: localstack/localstack:latest
-        env:
-          DEFAULT_REGION: us-east-1
-          AWS_DEFAULT_REGION: us-east-1
-          AWS_ACCESS_KEY_ID: local
-          AWS_SECRET_ACCESS_KEY: local
-          DEBUG: ${DEBUG-}
-          DATA_DIR: ${DATA_DIR-}
-          LAMBDA_EXECUTOR: ${LAMBDA_EXECUTOR-}
-          HOST_TMP_FOLDER: ${TMPDIR:-/tmp/}localstack
-          DOCKER_HOST: unix:///var/run/docker.sock
-          SERVICES: s3,s3control,lambda,dynamodb,stepfunctions,iam
-     
-        ports:
-          - 4566:4566
-          - 4510-4559:4510-4559
-
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    
+    - name: Start localstack
+      run: docker-compose up -d
+    
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    
+    - name: Download tools
+      run: make download-tools
+    
+    - name: Run linter
+      run: make lint
 
     - name: Build SAM
       run: make build
@@ -48,4 +47,7 @@ jobs:
       run: make zip-deployment
 
     - name: Launch tests
-      run: make validate-template      
+      run: make test
+    - name: Stop containers
+      if: always()
+      run: docker-compose down      

@@ -29,7 +29,6 @@ func (s *Session) SetS3UploaderManager() {
 	s.s3UploaderManager = s3manager.NewUploader(s.AwsSession)
 }
 func (s *Session) CreateS3Bucket(bucketName string) error {
-
 	if _, err := s.s3Client.CreateBucket(&s3.CreateBucketInput{
 		CreateBucketConfiguration: &s3.CreateBucketConfiguration{
 			LocationConstraint: aws.String("us-east-1"),
