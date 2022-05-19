@@ -16,6 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         go-version: ["1.17", "1.18"]
+    env:
+      ENVIRONMENT: ci
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      DEFAULT_REGION: us-east-1
+      AWS_DEFAULT_REGION: us-east-1  
   
     steps:
     - uses: actions/checkout@v3
