@@ -51,9 +51,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Validate SAM Template
-      run: make validate-template
-
     - name: Run Go Linter
       run: make lint
 
