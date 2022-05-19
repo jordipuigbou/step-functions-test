@@ -34,6 +34,9 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
     
+    - name: Install go dependencies
+      run: make install
+    
     - name: Download tools
       run: make download-tools
     
@@ -48,6 +51,7 @@ jobs:
 
     - name: Launch tests
       run: make test
+    
     - name: Stop containers
       if: always()
       run: docker-compose down      
