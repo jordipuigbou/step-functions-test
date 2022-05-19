@@ -19,7 +19,9 @@ jobs:
     env:
       ENVIRONMENT: ci
       AWS_ACCESS_KEY_ID: local
-      AWS_SECRET_ACCESS_KEY: local     
+      AWS_SECRET_ACCESS_KEY: local
+      DEFAULT_REGION: us-east-1
+      AWS_DEFAULT_REGION: us-east-1           
   
     services:
       localstack:
@@ -48,6 +50,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Validate SAM Template
+      run: make validate-template
+
+    - name: Run Go Linter
+      run: make lint
 
     - name: Build SAM
       run: make build
