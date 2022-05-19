@@ -34,11 +34,11 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
     
-    - name: golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: v1.46.0
-        args: -c .golangci.yml --timeout 5m
+    - name: Download tools
+      run: make download-tools
+    
+    - name: Run linter
+      run: make lint
 
     - name: Build SAM
       run: make build
