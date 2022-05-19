@@ -46,7 +46,7 @@ func InitializeScenario(ctx context.Context, scenarioCtx *godog.ScenarioContext)
 	awsFeature.setSessions(ctx)
 	awsFeature.propagateAwsSession(ctx)
 	// Scenario Setup and Teardown
-	awsFeature.beforeScenario(ctx)
+	awsFeature.beforeScenario()
 
 	scenarioCtx.After(awsFeature.afterScenario)
 }
@@ -60,15 +60,13 @@ type AwsFeature struct {
 	AWSSession    *awss.Session
 }
 
-func (a *AwsFeature) beforeScenario(ctx context.Context) (
-	context.Context, error) {
+func (a *AwsFeature) beforeScenario() {
 	a.SfnSession.SetAwsSfnClient()
 	a.IAMSession.SetIAMClient()
 	a.DBSession.SetAwsDynamoClient()
 	a.LambdaSession.SetLambdaClient()
 	a.S3Session.SetS3Client()
 	a.S3Session.SetS3UploaderManager()
-	return ctx, nil
 }
 
 func (a *AwsFeature) afterScenario(ctx context.Context, s *godog.Scenario, testErr error) (

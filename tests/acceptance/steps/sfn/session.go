@@ -16,12 +16,8 @@ import (
 )
 
 const (
-	projectPath           = "../../"
-	stateMachinesPath     = "statemachines"
-	lambdaFunctionName    = "HelloWorldFunction"
-	lambdaFunctionPath    = projectPath + "/.aws-sam/build"
-	lambdaFunctionZipFile = lambdaFunctionName + ".zip"
-	bucket                = "bucketname"
+	projectPath       = "../../"
+	stateMachinesPath = "statemachines"
 )
 
 type Session struct {

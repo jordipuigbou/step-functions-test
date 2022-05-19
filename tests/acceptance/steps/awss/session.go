@@ -9,12 +9,6 @@ import (
 	aws_s "github.com/aws/aws-sdk-go/aws/session"
 )
 
-const (
-	role       = "admin"
-	rolePolicy = `{"Version":"2012-10-17","Statement":[{"Effect":"Allow"` +
-		`,"Action":"*","Resource":"*"}]}`
-)
-
 type Session struct {
 	AwsSession *aws_s.Session
 }
