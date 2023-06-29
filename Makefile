@@ -39,6 +39,6 @@ lint:	## Run static linting of source files. See .golangci.yml for options
 .PHONY: download-tools
 download-tools:	## Download all required tools to generate documentation, code analysis...
 	@echo "Installing tools on $(GO_PATH)/bin"
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.0
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3
 	go install golang.org/x/tools/cmd/goimports@v0.1.9
 	@echo "Tools installed"	
